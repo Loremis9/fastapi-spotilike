@@ -1,0 +1,24 @@
+# Environnements virtuels
+api/
+env/
+venv/
+.env
+# Fichiers de configuration
+*.env
+
+# Fichiers de cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Clés et certificats
+*.pem
+
+# Fichiers générés par l'IDE
+.vscode/
+.idea/
+
+# Dépendances
+*.egg-info/
+dist/
+build/

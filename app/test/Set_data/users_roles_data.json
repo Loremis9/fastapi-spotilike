@@ -1,0 +1,70 @@
+{
+    "roles": [
+      {
+        "role_id": 1,
+        "role_name": "Admin"
+      },
+      {
+        "role_id": 2,
+        "role_name": "User"
+      }
+    ],
+    "users": [
+      {
+        "user_id": "e0a2d635-d431-4ef3-8fa2-c9a8f0c4b1c6",
+        "user_name": "alice",
+        "mdp": "securepass1",
+        "email": "alice@example.com",
+        "updated_at": "2025-01-14",
+        "deleted_at": null,
+        "age": 25,
+        "genre": "F",
+        "role_id": 1
+      },
+      {
+        "user_id": "e0a2d635-d431-4ef3-8fa2-c9a8f0c4b1c5",
+        "user_name": "bob",
+        "mdp": "securepass2",
+        "email": "bob@example.com",
+        "updated_at": "2025-01-14",
+        "deleted_at": null,
+        "age": 30,
+        "genre": "M",
+        "role_id": 2
+      },
+      {
+        "user_id": "e0a2d635-d431-4ef3-8fa2-c9a8f0c4b1c4",
+        "user_name": "charlie",
+        "mdp": "securepass3",
+        "email": "charlie@example.com",
+        "updated_at": "2025-01-14",
+        "deleted_at": null,
+        "age": 28,
+        "genre": "M",
+        "role_id": 2
+      },
+      {
+        "user_id": "e0a2d635-d431-4ef3-8fa2-c9a8f0c4b1c3",
+        "user_name": "diana",
+        "mdp": "securepass4",
+        "email": "diana@example.com",
+        "updated_at": "2025-01-14",
+        "deleted_at": null,
+        "age": 22,
+        "genre": "F",
+        "role_id": 1
+      },
+      {
+        "user_id": "e0a2d635-d431-4ef3-8fa2-c9a8f0c4b1c2",
+        "user_name": "eve",
+        "mdp": "securepass5",
+        "email": "eve@example.com",
+        "updated_at": "2025-01-14",
+        "deleted_at": null,
+        "age": 27,
+        "genre": "F",
+        "role_id": 2
+      }
+    ]
+  }
+  

@@ -1,0 +1,85 @@
+{
+    "artists": [
+      {
+        "artist_id": "6b59a0cd-bec3-4785-8a0c-0a35d1b9e5a2",
+        "artist_name": "The Beatles",
+        "avatar": "https://example.com/avatar1.jpg",
+        "biography": "The Beatles were an English rock band formed in Liverpool in 1960.",
+        "updated_at": "2025-01-14",
+        "deleted_at": null
+      },
+      {
+        "artist_id": "e0a2d635-d431-4ef3-8fa2-c9a8f0c4b1c1",
+        "artist_name": "Elvis Presley",
+        "avatar": "https://example.com/avatar2.jpg",
+        "biography": "Elvis Presley was an American singer and actor, regarded as one of the most significant cultural icons of the 20th century.",
+        "updated_at": "2025-01-14",
+        "deleted_at": null
+      },
+      {
+        "artist_id": "de42a2f7-c3f0-42cb-934d-8bbfdc31c9e8",
+        "artist_name": "Adele",
+        "avatar": "https://example.com/avatar3.jpg",
+        "biography": "Adele is an English singer-songwriter known for her powerful voice and deeply personal lyrics.",
+        "updated_at": "2025-01-14",
+        "deleted_at": null
+      },
+      {
+        "artist_id": "fb431a02-f472-48ef-9446-22bfc472ba3b",
+        "artist_name": "Beyoncé",
+        "avatar": "https://example.com/avatar4.jpg",
+        "biography": "Beyoncé is an American singer, songwriter, and actress, widely regarded as one of the most influential artists in music history.",
+        "updated_at": "2025-01-14",
+        "deleted_at": null
+      },
+      {
+        "artist_id": "01be6428-f6a4-4d7d-b3ee-5671c716456e",
+        "artist_name": "Billie Eilish",
+        "avatar": "https://example.com/avatar5.jpg",
+        "biography": "Billie Eilish is an American singer-songwriter known for her unique style and innovative approach to music.",
+        "updated_at": "2025-01-14",
+        "deleted_at": null
+      },
+      {
+        "artist_id": "c1f8a473-6c4e-41b8-b1e8-4e6a5d5c5f71",
+        "artist_name": "Taylor Swift",
+        "avatar": "https://example.com/avatar6.jpg",
+        "biography": "Taylor Swift is an American singer-songwriter known for her narrative songwriting, which has received widespread media coverage.",
+        "updated_at": "2025-01-14",
+        "deleted_at": null
+      },
+      {
+        "artist_id": "fd73825e-80e4-4976-a2c7-719d35f2bb57",
+        "artist_name": "Ed Sheeran",
+        "avatar": "https://example.com/avatar7.jpg",
+        "biography": "Ed Sheeran is an English singer-songwriter known for his soulful voice and acoustic music.",
+        "updated_at": "2025-01-14",
+        "deleted_at": null
+      },
+      {
+        "artist_id": "2a5c7b32-03ef-4fa3-9f11-e1c0df6b5769",
+        "artist_name": "Bruno Mars",
+        "avatar": "https://example.com/avatar8.jpg",
+        "biography": "Bruno Mars is an American singer, songwriter, and record producer known for his stage performances and retro showmanship.",
+        "updated_at": "2025-01-14",
+        "deleted_at": null
+      },
+      {
+        "artist_id": "fe57d203-6745-4b5f-921f-d019efb4e891",
+        "artist_name": "Ariana Grande",
+        "avatar": "https://example.com/avatar9.jpg",
+        "biography": "Ariana Grande is an American singer, songwriter, and actress known for her four-octave vocal range.",
+        "updated_at": "2025-01-14",
+        "deleted_at": null
+      },
+      {
+        "artist_id": "b3c4fd2b-58f1-4ccf-bbfb-8bb6a1bc5ed1",
+        "artist_name": "Post Malone",
+        "avatar": "https://example.com/avatar10.jpg",
+        "biography": "Post Malone is an American rapper, singer, and songwriter known for his genre-bending music.",
+        "updated_at": "2025-01-14",
+        "deleted_at": null
+      }
+    ]
+  }
+  

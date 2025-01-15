@@ -1,0 +1,40 @@
+{
+    "types": [
+      {
+        "type_id": "f93a50cd-1a69-4be6-aad3-f58da68c8be5",
+        "title": "Rock",
+        "description": "Genre de musique populaire caractérisé par l'utilisation d'instruments électriques et un rythme entraînant.",
+        "updated_at": "2025-01-14",
+        "deleted_at": null
+      },
+      {
+        "type_id": "c37d740a-bebf-4d44-9b33-f5a9b2f96b9b",
+        "title": "Pop",
+        "description": "Genre de musique populaire ayant des mélodies accrocheuses et un style souvent léger.",
+        "updated_at": "2025-01-14",
+        "deleted_at": null
+      },
+      {
+        "type_id": "b0a3b7e1-73c6-4d75-b508-cb26b8a2b8e3",
+        "title": "Jazz",
+        "description": "Genre musical caractérisé par l'improvisation, les rythmes complexes et les harmonies étendues.",
+        "updated_at": "2025-01-14",
+        "deleted_at": null
+      },
+      {
+        "type_id": "d1d1cd0f-bc92-42d4-b6f3-89f123e7a9cf",
+        "title": "Classical",
+        "description": "Musique traditionnelle européenne, souvent interprétée par des orchestres, avec des compositions complexes et structurées.",
+        "updated_at": "2025-01-14",
+        "deleted_at": null
+      },
+      {
+        "type_id": "f12b7894-7285-47ff-bdbd-07fcf88b88b3",
+        "title": "Hip-Hop",
+        "description": "Genre musical comprenant des rythmes chantés ou parlés, souvent accompagnés de beats électroniques.",
+        "updated_at": "2025-01-14",
+        "deleted_at": null
+      }
+    ]
+  }
+  
