@@ -4,10 +4,10 @@ from sqlalchemy.orm import Session
 from datetime import datetime
 
 def get_all_types(db: Session, skip : int = 0, limit : int =100):
-    return db(models.Type).query(models.Type).filter(models.Type.deleted_at == False).offset(skip).limit(limit).all()
+    return db.query(models.Type).filter(models.Type.deleted_at.is_(None)).offset(skip).limit(limit).all()
 
 def get_type_by_id(db: Session, type_id: int):
-    return db(models.Type).query(models.Type.type_id == type_id).filter(models.Type.deleted_at == False).first()
+    return db.query(models.Type.type_id == type_id).filter(models.Type.deleted_at.is_(None)).first()
 
 def put_type(db : Session, type: schemas.TypeOutput):
     db_type = get_type_by_id(type.type_id)

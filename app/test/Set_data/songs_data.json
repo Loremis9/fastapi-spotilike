@@ -3,6 +3,7 @@
       {
         "album_id": "7db99d09-53fc-4194-a45d-9418e3039b6b",
         "artist_id": "b3c4fd2b-58f1-4ccf-bbfb-8bb6a1bc5ed1",
+        "type_id": "b0a3b7e1-73c6-4d75-b508-cb26b8a2b8e3",
         "song_id": "a72fa431-d0a4-4662-b318-cb22b0d377b1",
         "title": "Come Together",
         "duration": 4.20,
@@ -12,6 +13,7 @@
       {
         "album_id": "b3a586d8-d2cf-4b8f-84f1-c3c6b1f409ad",
         "artist_id": "b3c4fd2b-58f1-4ccf-bbfb-8bb6a1bc5ed1",
+        "type_id": "d1d1cd0f-bc92-42d4-b6f3-89f123e7a9cf",
         "song_id": "7a120a68-827d-4e4a-b1c5-eae0e95cf1f2",
         "title": "Something",
         "duration": 3.03,
@@ -21,6 +23,7 @@
       {
         "album_id": "ae52dba7-d0c5-4337-89e2-bad2e8a59b1e",
         "artist_id": "2a5c7b32-03ef-4fa3-9f11-e1c0df6b5769",
+        "type_id": "d1d1cd0f-bc92-42d4-b6f3-89f123e7a9cf",
         "song_id": "f7a61b34-cbe7-4c3c-9f8b-bcd74ff3edc4",
         "title": "Heartbreak Hotel",
         "duration": 2.08,
@@ -31,6 +34,7 @@
         "album_id": "e1fce372-b88d-4405-9d8d-9d5630f05651",
         "artist_id": "fd73825e-80e4-4976-a2c7-719d35f2bb57",
         "song_id": "18a234fa-baa0-4b80-9c7d-f1c935b0edcb",
+        "type_id": "b0a3b7e1-73c6-4d75-b508-cb26b8a2b8e3",
         "title": "Hello",
         "duration": 4.55,
         "updated_at": "2025-01-14",
@@ -39,6 +43,7 @@
       {
         "album_id": "e1fce372-b88d-4405-9d8d-9d5630f05651",
         "artist_id": "fd73825e-80e4-4976-a2c7-719d35f2bb57",
+        "type_id": "c37d740a-bebf-4d44-9b33-f5a9b2f96b9b",
         "song_id": "8e97b9c0-e6e3-4f96-87d1-dabb5fc54cde",
         "title": "Formation",
         "duration": 4.11,

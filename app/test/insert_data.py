@@ -103,7 +103,7 @@ def insert_type_data(db: Session):
     db.commit()
     print("Types inserted.")
 
-# Fonction d'insertion des morceaux (trackings)
+# Fonction d'insertion des morceaux
 def insert_songs_data(db: Session):
     json_file_path = "app/test/Set_data/songs_data.json"
     with open(json_file_path, 'r') as file:
@@ -113,12 +113,14 @@ def insert_songs_data(db: Session):
     for song_data in data["songs"]:
         artist = db.query(Artist).filter(Artist.artist_id == song_data["artist_id"]).first()
         album = db.query(Album).filter(Album.album_id == song_data["album_id"], Album.artist_id == artist.artist_id).first()
+        type =db.query(Type).filter(Type.type_id == song_data["type_id"]).first()
         db_song = Song(
             song_id=song_data["song_id"],
             title=song_data["title"],
             duration=song_data["duration"],
             artist_id=artist.artist_id,
             album_id=album.album_id,
+            type_id=type.type_id,
             updated_at=datetime.strptime(song_data["updated_at"], "%Y-%m-%d"),
             deleted_at=song_data["deleted_at"]
         )

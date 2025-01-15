@@ -4,15 +4,15 @@ from . import models, schemas
 from datetime import datetime
 
 
-def create_artist(db: Session, album: schemas.ArtistCreate):
-    db_artist = models.Artist(**album.dict())
+def create_artist(db: Session, artist: schemas.ArtistCreate):
+    db_artist = models.Artist(**artist.dict())
     db.add(db_artist)
     db.commit()
     db.refresh(db_artist)
     return db_artist
 
 def get_artist_by_id(db:Session, artist_id: int):
-    return db.query(models.Artist).filter(models.Artist.artist_id == artist_id.artist_id, models.Artist.deleted_at == False).first()
+    return db.query(models.Artist).filter(models.Artist.artist_id == artist_id.artist_id, models.Artist.deleted_at.is_(None)).first()
 
 def remove_album(db: Session, artist_id: int):
     db_artist = get_artist_by_id(artist_id)

@@ -20,7 +20,10 @@ class Song(Base):
     artist = relationship('Artist', back_populates='songs')
     song_album_relationship = relationship("Album", back_populates="album_song_relationship")
 
+    type_id = Column(UUID(as_uuid=True), ForeignKey('types.type_id'))
+    types = relationship('Type', back_populates='songs')
 
+    
     def __repr__(self):
         return f"<song(title={self.title}, duration={self.duration})>"
     
