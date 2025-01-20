@@ -1,65 +1,22 @@
 from fastapi import FastAPI
-from fastapi import FastAPI, Request, Response
-from .routers import albums, login, songs
-from .core.database import engine, Base,get_db
-import logging
-from sqlalchemy.exc import SQLAlchemyError
+from .core.database import create_db
+from .test.load_data.load_datas import load_all_test_data 
+from .src.routers import api
+from .core.config import API_PREFIX
+from .core.dependencies import logger_errors
 
-from .test.insert_data import (
-    insert_data_users_role,
-    insert_data_artists,
-    insert_data_albums,
-    insert_type_data,
-    insert_songs_data)
-
-logging.basicConfig(
-    level=logging.INFO,  # Niveau de log : DEBUG, INFO, WARNING, ERROR, CRITICAL
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",  # Format du log
-)
-logger = logging.getLogger(__name__)
 def get_app()->FastAPI:
-
+    logger = logger_errors()
     app = FastAPI()
-    try:
-        Base.metadata.create_all(bind=engine)
-    except SQLAlchemyError as e:
-        logger.error(f"Database error: {str(e)}")
-    except Exception as e:
-        logger.error(f"Unexpected error: {str(e)}")
-
-    app.include_router(albums.router)
-    app.include_router(login.router)
-    app.include_router(songs.router)
-
+    create_db(logger)
+    app.include_router(api.router, prefix=API_PREFIX)
     return app
 
 app = get_app()
 
 @app.on_event("startup")
 async def load_test_data():
-    is_active = False
-    if not is_active:
-        return
-    db = next(get_db()) 
-    try:
-        insert_data_users_role(db)
-        insert_data_artists(db)
-        insert_data_albums(db)
-        insert_type_data(db)
-        insert_songs_data(db)
-    finally:
-        db.close()
-
-    print("Test data loaded successfully.")
-
-@app.get("/error")
-async def trigger_error():
-    logger.error("Une erreur s'est produite.")
-    return {"message": "Erreur rencontrée."}
-
-
-
-
+   load_all_test_data()
 
 @app.get("/")
 async def root():
