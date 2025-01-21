@@ -8,15 +8,11 @@ from typing import List
 from ...core.database import get_db
 from sqlalchemy.orm import Session
 from .converter.song_converter import convert_song_output,convert_songs_output
-router = APIRouter(
-    prefix="",
-    tags=["songs"]
-)
+from ..models.user_session import service as service_user_session
 
-@router.get("/artist/{artist_id}/songs",response_model=List[songOutput]) 
-async def get_all_song_by_artist_id(artist_id : UUID,db: Session = Depends(get_db)):
-    songs =  service_song.get_song_by_artist_id(db,artist_id)
-    return convert_songs_output(songs)
+
+router = APIRouter()
+
 
 @router.get("/albums/{albums_id}/songs",response_model=List[songOutput])
 async def get_song_by_id(albums_id : UUID,db: Session = Depends(get_db)):
@@ -37,5 +33,5 @@ async def modify_types_by_id(genre_id : UUID,schema: TypeModify, db: Session = D
     return service_type.put_type(db, genre_id, schema)
 
 @router.delete("/genre/{genre_id}")
-async def delete_song_by_id(genre_id : UUID, db: Session = Depends(get_db)):
+async def delete_song_by_id(genre_id : UUID, db: Session = Depends(get_db), user = Depends(service_user_session.get_current_user)):
     return service_type.remove_type(genre_id,db)

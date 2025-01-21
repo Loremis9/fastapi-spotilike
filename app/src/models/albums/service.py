@@ -34,7 +34,7 @@ def put_album(db :Session, album_id: UUID ,album: schemas.AlbumModify):
     if album.release_date:
         db_album.release_date = album.release_date
     if album.title:
-        db_album.title = album.title
+        db_album.title = album.title.encode('utf-8')
     if album.artist_id:
         artist = get_artist_by_id(db,album.artist_id)
         if not artist:

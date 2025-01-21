@@ -11,12 +11,12 @@ class Album(Base):
     
     album_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     title = Column(String(100), nullable=False)
-    pouch = Column(String(255))
+    pouch = Column(String(255), nullable=True)
     release_date = Column(DateTime, nullable=False, default=datetime.utcnow)
     updated_at = Column(DateTime, nullable=True)
     deleted_at = Column(DateTime, nullable=True)
     
-    artist_id = Column(UUID(as_uuid=True), ForeignKey("artists.artist_id"), nullable=False)
+    artist_id = Column(UUID(as_uuid=True), ForeignKey("artists.artist_id", ondelete="CASCADE"), nullable=False)
     artist = relationship("Artist", back_populates="albums")
     
     album_song_relationship = relationship("Song", back_populates="song_album_relationship")

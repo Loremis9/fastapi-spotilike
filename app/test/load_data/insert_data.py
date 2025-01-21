@@ -6,7 +6,9 @@ from ...src.models.users.models import User, Role
 from ...src.models.artists.models import Artist
 from ...src.models.albums.models import Album
 from ...src.models.songs.models import Song
-from ...src.models.users.service import salt_password
+from ...core.security import hash_password
+from ...src.models.user_session.models import UserSession
+
 
 # Fonction d'insertion des rôles et des utilisateurs
 def insert_data_users_role(db: Session):
@@ -26,7 +28,7 @@ def insert_data_users_role(db: Session):
         db_user = User(
             user_id=user_data["user_id"],
             user_name=user_data["user_name"],
-            mdp=salt_password(user_data["mdp"]),
+            mdp=hash_password(user_data["mdp"]),
             email=user_data["email"],
             age=user_data["age"],
             genre=user_data["genre"],
@@ -37,6 +39,21 @@ def insert_data_users_role(db: Session):
         db.add(db_user)
     db.commit()
     print("Users inserted.")
+
+def insert_data_users_session_data(db: Session):
+    json_file_path = "app/test/set_data/user_session.json"
+    with open(json_file_path, 'r') as file:
+        data = json.load(file)
+    for user_data_session in data["users"]:
+        db_user = UserSession(
+            user_id=user_data_session["user_id"],
+            user_session_id=user_data_session["user_session_id"]
+        )
+        db.add(db_user)
+
+    db.commit()
+    print("User_session inserted.")
+
 
 # Fonction d'insertion des artistes
 def insert_data_artists(db: Session):

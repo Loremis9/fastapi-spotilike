@@ -34,7 +34,6 @@ def add_song_to_album(db_session, album_id, schema: songCreate):
     if album:
         new_song = convert_model(schema, album)
         album.album_song_relationship.append(new_song)
-        
         db_session.add(new_song)
         db_session.commit()
         return new_song

@@ -6,6 +6,7 @@ from uuid import UUID
 
 def create_artist(db: Session, artist: schemas.ArtistCreate):
     db_artist = models.Artist(**artist.dict())
+    db_artist = encode_str_artist(db_artist)
     db.add(db_artist)
     db.commit()
     db.refresh(db_artist)
@@ -26,7 +27,10 @@ def put_artist(artist_id : UUID,artist: schemas.ArtistModify,db :Session):
     db_artist = get_artist_by_id(db, artist_id)
     if not db_artist:
         raise HTTPException(status_code=404, detail="Artist not found")
+    
     if artist.artist_name:
+        db_artist.artist_name = artist.artist_name
+    if artist.artist_pouch:
         db_artist.pouch = artist.pouch
     if artist.avatar:
         db_artist.avatar = artist.avatar
@@ -34,7 +38,12 @@ def put_artist(artist_id : UUID,artist: schemas.ArtistModify,db :Session):
         db_artist.biography = artist.biography
 
     db_artist.update_at = datetime.utcnow()
+    db_artist = encode_str_artist(db_artist)
     db.commit()
     db.refresh(db_artist)
     return db_artist
-    
+
+def encode_str_artist(artist: models.Artist):
+    artist.artist_name = artist.artist_name.encode('utf-8')
+    artist.biography = artist.biography.encode('utf-8')
+    return artist

@@ -14,7 +14,7 @@ class Song(Base):
     updated_at = Column(DateTime, nullable=True)
     deleted_at = Column(DateTime, nullable=True)
 
-    artist_id = Column(UUID(as_uuid=True), ForeignKey('artists.artist_id'))
+    artist_id = Column(UUID(as_uuid=True), ForeignKey('artists.artist_id', ondelete="CASCADE"))
     album_id = Column(UUID(as_uuid=True), ForeignKey('albums.album_id')) 
 
     artist = relationship('Artist', back_populates='songs')
