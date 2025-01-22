@@ -28,7 +28,7 @@ def insert_data_users_role(db: Session):
         db_user = User(
             user_id=user_data["user_id"],
             user_name=user_data["user_name"],
-            mdp=hash_password(user_data["mdp"]),
+            password=hash_password(user_data["mdp"]),
             email=user_data["email"],
             age=user_data["age"],
             genre=user_data["genre"],

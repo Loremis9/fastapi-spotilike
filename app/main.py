@@ -3,11 +3,11 @@ from .core.database import create_db
 from .test.load_data.load_datas import load_all_test_data 
 from .src.routers import api
 from .core.config import API_PREFIX
-from .core.dependencies import logger
+
 
 def get_app()->FastAPI:
     app = FastAPI()
-    create_db(logger)
+    create_db()
     app.include_router(api.router, prefix=API_PREFIX)
     return app
 

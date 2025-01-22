@@ -1,13 +1,13 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-import logging
 from sqlalchemy.exc import SQLAlchemyError
+from ..core.dependencies import logger
 ###
 # Database Configuration
 ###
 
-SQLALCHEMY_DATABASE_URL = "postgresql://admin:adminpassword@localhost/fastapi-spotilike"
+SQLALCHEMY_DATABASE_URL = "postgresql://admin:adminpassword@localhost/fastapi_spotilike"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -21,7 +21,7 @@ def get_db():
     finally:
         db.close()
 
-def create_db(logger: logging.Logger):
+def create_db():
     try:
         Base.metadata.create_all(bind=engine)
     except SQLAlchemyError as e:

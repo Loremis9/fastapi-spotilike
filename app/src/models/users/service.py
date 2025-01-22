@@ -5,12 +5,12 @@ from ....core.security import hash_password
 import bcrypt
 
 def get_user_by_id(db: Session, user_id: int):
-    return db.query(models.User).filter(models.User.id == user_id,models.User.deleted_at == False).first()
+    return db.query(models.User).filter(models.User.id == user_id,models.User.deleted_atis_(None)).first()
 
 def get_user_by_email(db: Session, email: str):
     if not email:
        raise HTTPException(status_code=404, detail="User not found")
-    return db.query(models.User).filter(models.User.email == email,models.User.deleted_at == False).first()
+    return db.query(models.User).filter(models.User.email == email,models.User.deleted_at.is_(None)).first()
 
 def create_user(db: Session, name: str, email: str) -> bool:
     db_user = models.User(name=name, email=email)
@@ -23,7 +23,7 @@ def create_user(db: Session, name: str, email: str) -> bool:
     return True
 
 def delete_user_by_id(db:Session, user_id: int):
-    user = get_user_by_id(user_id).filter(models.User.deleted_at == False)
+    user = get_user_by_id(user_id).filter(models.User.deleted_at.is_(None))
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     db.delete(user)
@@ -37,6 +37,6 @@ def authenticate_user(db : Session, email: str, password: str)-> models.User:
     db_user = get_user_by_email(db, email)
     if not db_user:
         return False
-    if not verify_password(password, db_user.hashed_password):
+    if not verify_password(db,password, db_user.password):
         return False
     return db_user

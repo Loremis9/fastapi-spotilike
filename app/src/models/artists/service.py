@@ -16,7 +16,7 @@ def get_artist_by_id(db:Session, artist_id: int):
     return db.query(models.Artist).filter(models.Artist.artist_id == artist_id, models.Artist.deleted_at.is_(None)).first()
 
 def remove_album(db: Session, artist_id: int):
-    db_artist = get_artist_by_id(artist_id)
+    db_artist = get_artist_by_id(db,artist_id)
     if not db_artist:
         raise HTTPException(status_code=404, detail="Artist not found")
     db.delete(db_artist)

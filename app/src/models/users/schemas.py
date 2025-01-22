@@ -8,12 +8,13 @@ class UserCreate(BaseModel):
     password: str
 
 class UserOutput(BaseModel):
-    jwt_refresh: Optional[str]
+    access_token: Optional[str]
 
+class RefreshToken(BaseModel):
+    refresh_token: str
 
 class Token(BaseModel):
     access_token: str
-    token_type: str
     refresh_token: str
 
 class TokenData(BaseModel):

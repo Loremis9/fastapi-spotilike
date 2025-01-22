@@ -14,3 +14,6 @@ class ArtistModify(ArtistCreate):
     artist_name: Optional[str]
     avatar: Optional[str]
     biography: Optional[str]
+
+class ArtistDelete(BaseModel):
+    is_deleted: bool

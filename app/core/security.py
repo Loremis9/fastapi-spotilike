@@ -38,18 +38,22 @@ def verify_refresh_token_validity(refresh_token: str) -> bool:
     return True
 
 
-def verify_refresh_token(token: str) -> str:
+def verify_refresh_token(refresh_token: str) -> str:
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(refresh_token, SECRET_KEY, algorithms=[ALGORITHM])
         return payload.get("sub") 
     except ExpiredSignatureError:
         raise HTTPException(
-                return_credentials_exception(message="Refresh token has expired")
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Refresh token has expired",
+            headers={"WWW-Authenticate": "Bearer "}
         )
     except InvalidTokenError:
         raise HTTPException(
-            return_credentials_exception(message="Invalid refresh token")
-        )
+                        status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail="Invalid refresh token",
+                    headers={"WWW-Authenticate": "Bearer "}
+                )
 
 def return_credentials_exception(message : str = "Could not validate credentials", token_type : str = "Bearer") -> HTTPException :
     return  HTTPException(
