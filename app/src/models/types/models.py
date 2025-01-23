@@ -13,6 +13,6 @@ class Type(Base):
     updated_at = Column(DateTime, nullable=True)
     deleted_at = Column(DateTime, nullable=True)
     
-    songs = relationship("Song", back_populates="types")
+    songs = relationship("Song", back_populates="type",cascade="all, delete-orphan")
     def __repr__(self):
         return f"<Type(title={self.title})>"

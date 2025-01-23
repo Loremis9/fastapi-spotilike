@@ -3,13 +3,13 @@ from . import models
 from fastapi import HTTPException
 from ....core.security import hash_password
 import bcrypt
-
-def get_user_by_id(db: Session, user_id: int):
+from ....core.security import return_http_error
+def get_user_by_id(db: Session, user_id: int) -> models.User:
     return db.query(models.User).filter(models.User.id == user_id,models.User.deleted_atis_(None)).first()
 
 def get_user_by_email(db: Session, email: str):
     if not email:
-       raise HTTPException(status_code=404, detail="User not found")
+       raise return_http_error("User not found")
     return db.query(models.User).filter(models.User.email == email,models.User.deleted_at.is_(None)).first()
 
 def create_user(db: Session, name: str, email: str) -> bool:
@@ -22,10 +22,10 @@ def create_user(db: Session, name: str, email: str) -> bool:
     db.refresh(db_user)
     return True
 
-def delete_user_by_id(db:Session, user_id: int):
+def delete_user_by_id(db:Session, user_id: int)-> bool :
     user = get_user_by_id(user_id).filter(models.User.deleted_at.is_(None))
     if not user:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise return_http_error("User not found")
     db.delete(user)
     return True
 

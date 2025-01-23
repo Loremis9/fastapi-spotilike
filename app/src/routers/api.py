@@ -9,4 +9,5 @@ def include_api_routes():
     router.include_router(login.router)
     router.include_router(songs.router)
     router.include_router(artists.router)
+    
 include_api_routes()

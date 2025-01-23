@@ -5,7 +5,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from ....core.database import Base
 
 class UserSession(Base):
-    __tablename__ = "user_session"
+    __tablename__ = "user_sessions"
     
     user_session_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     user_refresh_token = Column(String(500), nullable=True)

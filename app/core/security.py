@@ -5,7 +5,7 @@ import bcrypt
 from passlib.context import CryptContext
 from jwt.exceptions import InvalidTokenError,ExpiredSignatureError
 from fastapi import  HTTPException, status
-
+from .config import NOT_FOUND, UNAUTHORIZED
 
 def create_access_token(data) -> str:
     payload = data.copy()
@@ -43,21 +43,20 @@ def verify_refresh_token(refresh_token: str) -> str:
         payload = jwt.decode(refresh_token, SECRET_KEY, algorithms=[ALGORITHM])
         return payload.get("sub") 
     except ExpiredSignatureError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Refresh token has expired",
-            headers={"WWW-Authenticate": "Bearer "}
-        )
+        raise return_http_error("Refresh token has expire")
     except InvalidTokenError:
-        raise HTTPException(
-                        status_code=status.HTTP_401_UNAUTHORIZED,
-                    detail="Invalid refresh token",
-                    headers={"WWW-Authenticate": "Bearer "}
-                )
+        raise return_http_error("Invalid refresh token")
 
-def return_credentials_exception(message : str = "Could not validate credentials", token_type : str = "Bearer") -> HTTPException :
-    return  HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
+
+def return_http_error(message : str, status_http : status = NOT_FOUND) -> HTTPException :
+    raise  HTTPException(
+        status_code=status_http,
         detail=message,
-        headers={"WWW-Authenticate": token_type},
+    )
+
+def return_headers_error(message : str = "Could not validate credentials", status_http : status = UNAUTHORIZED) -> HTTPException :
+    raise  HTTPException(
+        status_code=status_http,
+        detail=message,
+        headers={"WWW-Authenticate": "Bearer"}
     )

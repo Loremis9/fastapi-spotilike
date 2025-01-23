@@ -7,11 +7,11 @@ from ...src.models.artists.models import Artist
 from ...src.models.albums.models import Album
 from ...src.models.songs.models import Song
 from ...core.security import hash_password
-from ...src.models.user_session.models import UserSession
+from ...src.models.user_sessions.models import UserSession
 
 
 # Fonction d'insertion des rôles et des utilisateurs
-def insert_data_users_role(db: Session):
+def insert_data_users_roles(db: Session):
     json_file_path = "app/test/set_data/users_roles_data.json"
     with open(json_file_path, 'r') as file:
         data = json.load(file)
@@ -40,7 +40,7 @@ def insert_data_users_role(db: Session):
     db.commit()
     print("Users inserted.")
 
-def insert_data_users_session_data(db: Session):
+def insert_data_users_sessions_data(db: Session):
     json_file_path = "app/test/set_data/user_session.json"
     with open(json_file_path, 'r') as file:
         data = json.load(file)
@@ -101,7 +101,7 @@ def insert_data_albums(db: Session):
     print("Albums inserted.")
 
 # Fonction d'insertion des types
-def insert_type_data(db: Session):
+def insert_types_data(db: Session):
     json_file_path = "app/test/set_data/types_data.json"
     with open(json_file_path, 'r') as file:
         data = json.load(file)

@@ -15,8 +15,8 @@ class Artist(Base):
     updated_at = Column(DateTime, nullable=True)
     deleted_at = Column(DateTime, nullable=True)
     
-    albums = relationship("Album", back_populates="artist")
-    songs = relationship('Song', back_populates='artist')
+    albums = relationship("Album", back_populates="artist", cascade="all, delete-orphan")
+    songs = relationship('Song', back_populates='artist', cascade="all, delete-orphan")
 
 
     def __repr__(self):
