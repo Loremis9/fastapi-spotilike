@@ -23,13 +23,13 @@ jobs:
       # 3. Construire l'image Docker
       - name: Build Docker image
         run: |
-          IMAGE_NAME=ghcr.io/loremis9/fastapi-spotilike
+          IMAGE_NAME=ghcr.io/loremis9/app
           docker build -t $IMAGE_NAME:${{ github.ref_name }} .
           docker tag $IMAGE_NAME:loremis9 $IMAGE_NAME:latest
 
       # 4. Pousser l'image Docker
       - name: Push Docker image
         run: |
-          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/fastapi-spotilike
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/app
           docker push $IMAGE_NAME:loremis9
           docker push $IMAGE_NAME:latest
