@@ -25,7 +25,6 @@ jobs:
         run: |
           IMAGE_NAME=ghcr.io/loremis9/app
           docker build -t $IMAGE_NAME:1.0.0 .
-          docker tag $IMAGE_NAME $IMAGE_NAME:1.0.0
 
       # 4. Pousser l'image Docker
       - name: Push Docker image
