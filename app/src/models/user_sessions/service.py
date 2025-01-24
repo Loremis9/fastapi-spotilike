@@ -10,6 +10,10 @@ from ....core.config import SECRET_KEY, ALGORITHM
 from .schemas import TokenData
 from ....core.security import create_refresh_token, verify_refresh_token_validity, return_http_error
 from ..users.models import User
+from ....core.log.metrics import log_info
+
+
+
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 
@@ -25,6 +29,7 @@ def save_refresh_token(db: Session,email =str) -> str:
         db.refresh(db_token)
     if verify_refresh_token_validity(db_token.user_refresh_token):
         return db_token.user_refresh_token
+    log_info("save refresh_token")
     return db_token.user_refresh_token
 
 def get_refresh_token(db: Session, email:str) -> bool:

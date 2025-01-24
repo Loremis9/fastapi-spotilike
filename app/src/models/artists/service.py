@@ -1,15 +1,21 @@
 from sqlalchemy.orm import Session
-from fastapi import HTTPException
 from . import models, schemas
 from datetime import datetime
 from uuid import UUID
 from ....core.security import return_http_error
+from ....core.config import BAD_REQUEST
+from ....core.log.metrics import log_info
+
 def create_artist(db: Session, artist: schemas.ArtistCreate) -> models.Artist:
     db_artist = models.Artist(**artist.dict())
     db_artist = encode_str_artist(db_artist)
+    db_existing = db.query(models.Artist).filter(models.Artist.artist_name == db_artist.artist_name).first()
+    if db_existing:
+        raise return_http_error("Artist already exist", status_http=BAD_REQUEST)
     db.add(db_artist)
     db.commit()
     db.refresh(db_artist)
+    log_info("create artist")
     return db_artist
 
 def get_artist_by_id(db:Session, artist_id: int) -> models.Artist:
@@ -21,6 +27,7 @@ def remove_album(db: Session, artist_id: int) -> bool:
         raise return_http_error("Artist not found")
     db.delete(db_artist)
     db.commit()
+    log_info("remove artist")
     return True
 
 def put_artist(artist_id : UUID,artist: schemas.ArtistModify,db :Session) -> models.Artist:
@@ -41,6 +48,7 @@ def put_artist(artist_id : UUID,artist: schemas.ArtistModify,db :Session) -> mod
     db_artist = encode_str_artist(db_artist)
     db.commit()
     db.refresh(db_artist)
+    log_info("modify artist")
     return db_artist
 
 def encode_str_artist(artist: models.Artist) -> models.Artist:

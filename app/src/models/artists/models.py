@@ -9,7 +9,7 @@ class Artist(Base):
     __tablename__ = "artists"
     
     artist_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    artist_name = Column(String(100), nullable=False)
+    artist_name = Column(String(100),unique=True, nullable=False)
     avatar = Column(String(255),nullable= True)
     biography = Column(Text, nullable=False)
     updated_at = Column(DateTime, nullable=True)

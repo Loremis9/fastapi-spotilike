@@ -1,4 +1,3 @@
-from typing import List
 from fastapi.security import OAuth2PasswordBearer
 from starlette.config import Config
 from starlette.datastructures import CommaSeparatedStrings
@@ -11,7 +10,7 @@ TOKEN_REFRESH = "Refresh"
 TOKEN_BEARER = "Bearer "
 config = Config(".env")
 
-ALLOWED_HOSTS: List[str] = config(
+ALLOWED_HOSTS: list[str] = config(
     "ALLOWED_HOSTS",
     cast=CommaSeparatedStrings,
     default="",
@@ -22,3 +21,4 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 NOT_FOUND = status.HTTP_404_NOT_FOUND
 UNAUTHORIZED = status.HTTP_401_UNAUTHORIZED
+BAD_REQUEST = status.HTTP_400_BAD_REQUEST

@@ -5,12 +5,15 @@ from datetime import datetime
 from ..artists.service import get_artist_by_id
 from uuid import UUID
 from ....core.security import return_http_error
+from ....core.log.metrics import log_info
+
 
 def create_album(db: Session, album: schemas.AlbumCreate) -> models.Album:
     db_album = models.Album(**album.dict())
     db.add(db_album)
     db.commit()
     db.refresh(db_album)
+    log_info("create album")
     return db_album
 
 def get_album_by_id(db: Session, album_id: UUID) -> models.Album:
@@ -51,5 +54,6 @@ def put_album(db :Session, album_id: UUID ,album: schemas.AlbumModify) -> models
     db_album.updated_at = datetime.utcnow()
     db.commit()
     db.refresh(db_album)
+    log_info("modify album")
     return db_album
     
