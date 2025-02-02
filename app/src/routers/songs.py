@@ -18,13 +18,13 @@ router = APIRouter()
 
 @router.get("/artist/{artist_id}/songs",response_model=list[songOutput]) 
 async def get_all_song_by_artist_id(artist_id : UUID,db: Session = Depends(get_db)) -> songOutput:
-    songs =  song_service.get_song_by_artist_id(db,artist_id)
-    return convert_songs_output(songs)
+    songs = song_service.get_song_by_artist_id(db,artist_id)
+    return convert_songs_output(db,songs)
 
 @router.get("/albums/{albums_id}/songs",response_model=list[songOutput])
 async def get_song_by_id(albums_id : UUID,db: Session = Depends(get_db)) -> songOutput:
     songs = song_service.get_song_by_album_id(db,albums_id)
-    return convert_songs_output(songs)
+    return convert_songs_output(db,songs)
 
 @router.get("/genres", response_model=list[TypeOutput])
 async def get_all_genre(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)) ->TypeOutput :

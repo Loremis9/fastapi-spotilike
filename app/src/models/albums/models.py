@@ -1,6 +1,6 @@
 import uuid
-from sqlalchemy import Column, String, DateTime, Text, ForeignKey
-from sqlalchemy.orm import relationship, declarative_base
+from sqlalchemy import Column, String, DateTime, ForeignKey, Index
+from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
 from datetime import datetime
 from ....core.database import Base
@@ -21,5 +21,8 @@ class Album(Base):
     
     album_song_relationship = relationship("Song", back_populates="song_album_relationship")
     
+    __table_args__ = (
+        Index('idx_album_artist_id', 'artist_id'),
+    )
     def __repr__(self):
         return f"<Album(title={self.title})>"

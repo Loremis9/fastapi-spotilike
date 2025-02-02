@@ -4,7 +4,7 @@ from datetime import datetime
 from ....core.security import return_http_error
 from uuid import UUID
 from ....core.log import logging
-from ....core.log.metrics import log_info
+from ....core.log.metrics import log_info_console
 
 
 def get_type_by_name(db: Session, type_name: str) -> models.Type:
@@ -32,7 +32,7 @@ def put_type(db : Session, type: schemas.TypeOutput) -> models.Type:
     db_type.updated_at = datetime.now(datetime.timezone.utc)
     db.commit()
     db.refresh(db_type)
-    log_info("create type")
+    log_info_console("create type")
     return db_type
 
 def get_type_by_name(db: Session, type_name: str) -> models.Type:

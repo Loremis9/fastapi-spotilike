@@ -8,8 +8,7 @@ from ..artists.models import Artist
 from ..albums.service import get_album_by_id
 from ..types.service import get_type_by_name
 from ....core.security import return_http_error
-from ....core.log.metrics import log_info
-
+from ....core.log.metrics import log_info_console
 
 def get_song_by_album_id(db: Session, album_id: UUID) -> Song:
     album = db.query(Album).filter(Album.album_id == album_id, Album.deleted_at.is_(None)).first()
@@ -28,7 +27,6 @@ def get_song_by_artist_id(db: Session, artist_id: UUID) -> Song:
 def add_song_to_album(db_session : Session, album_id: str, schema: songCreate) ->  Song:
     album = get_album_by_id(db_session, album_id) 
     type = get_type_by_name(db_session, schema.type)
-    db_song = Song(**schema.dict())
     if not album:
         raise return_http_error("Album not found")
     if not type:    
@@ -38,7 +36,7 @@ def add_song_to_album(db_session : Session, album_id: str, schema: songCreate) -
         album.album_song_relationship.append(new_song)
         db_session.add(new_song)
         db_session.commit()
-        log_info("create song")
+        log_info_console("create song")
         return new_song
     else:
         return None 

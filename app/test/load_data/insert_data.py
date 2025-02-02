@@ -65,9 +65,9 @@ def insert_data_artists(db: Session):
     for artist_data in data["artists"]:
         db_artist = Artist(
             artist_id=artist_data["artist_id"],
-            artist_name=artist_data["artist_name"],
+            artist_name=artist_data["artist_name"].encode('utf-8'),
             avatar=artist_data["avatar"],
-            biography=artist_data["biography"],
+            biography=artist_data["biography"].encode('utf-8'),
             updated_at=datetime.strptime(artist_data["updated_at"], "%Y-%m-%d"),
             deleted_at=artist_data["deleted_at"]
         )
@@ -88,7 +88,7 @@ def insert_data_albums(db: Session):
         released_at = datetime.strptime(album_data["release_date"], "%Y-%m-%d")
         db_album = Album(
             album_id=album_data["album_id"],
-            title=album_data["title"],
+            title=album_data["title"].encode('utf-8'),
             artist_id=artist.artist_id,
             pouch=album_data["pouch"],
             release_date=released_at,
@@ -110,8 +110,8 @@ def insert_types_data(db: Session):
     for type_data in data["types"]:
         db_type = Type(
             type_id=type_data["type_id"],
-            title=type_data["title"],
-            description=type_data["description"],
+            title=type_data["title"].encode('utf-8'),
+            description=type_data["description"].encode('utf-8'),
             updated_at=datetime.strptime(type_data["updated_at"], "%Y-%m-%d"),
             deleted_at=type_data["deleted_at"]
         )
@@ -133,7 +133,7 @@ def insert_songs_data(db: Session):
         type =db.query(Type).filter(Type.type_id == song_data["type_id"]).first()
         db_song = Song(
             song_id=song_data["song_id"],
-            title=song_data["title"],
+            title=song_data["title"].encode('utf-8'),
             duration=song_data["duration"],
             artist_id=artist.artist_id,
             album_id=album.album_id,

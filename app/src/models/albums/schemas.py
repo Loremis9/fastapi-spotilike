@@ -11,8 +11,13 @@ class AlbumCreate(BaseModel):
     class Config:
         from_attributes = True
     
-class AlbumOutput(AlbumCreate):
+class AlbumOutput(BaseModel):
     album_id: UUID
+    title: str
+    pouch: Optional[str]
+    release_date: datetime
+    artist_id: UUID
+    artist_name: str
     class Config:
         from_attributes = True
 

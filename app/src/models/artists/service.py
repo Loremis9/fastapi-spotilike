@@ -4,7 +4,7 @@ from datetime import datetime
 from uuid import UUID
 from ....core.security import return_http_error
 from ....core.config import BAD_REQUEST
-from ....core.log.metrics import log_info
+from ....core.log.metrics import log_info_console
 
 def create_artist(db: Session, artist: schemas.ArtistCreate) -> models.Artist:
     db_artist = models.Artist(**artist.dict())
@@ -15,11 +15,14 @@ def create_artist(db: Session, artist: schemas.ArtistCreate) -> models.Artist:
     db.add(db_artist)
     db.commit()
     db.refresh(db_artist)
-    log_info("create artist")
+    log_info_console("create artist")
     return db_artist
 
 def get_artist_by_id(db:Session, artist_id: int) -> models.Artist:
     return db.query(models.Artist).filter(models.Artist.artist_id == artist_id, models.Artist.deleted_at.is_(None)).first()
+
+def get_artists(db:Session, skip : int = 0, limit : int =100) -> list[models.Artist]:
+    return db.query(models.Artist).filter(models.Artist.deleted_at.is_(None)).offset(skip).limit(limit).all()
 
 def remove_album(db: Session, artist_id: int) -> bool:
     db_artist = get_artist_by_id(db,artist_id)
@@ -27,7 +30,7 @@ def remove_album(db: Session, artist_id: int) -> bool:
         raise return_http_error("Artist not found")
     db.delete(db_artist)
     db.commit()
-    log_info("remove artist")
+    log_info_console("remove artist")
     return True
 
 def put_artist(artist_id : UUID,artist: schemas.ArtistModify,db :Session) -> models.Artist:
@@ -48,7 +51,7 @@ def put_artist(artist_id : UUID,artist: schemas.ArtistModify,db :Session) -> mod
     db_artist = encode_str_artist(db_artist)
     db.commit()
     db.refresh(db_artist)
-    log_info("modify artist")
+    log_info_console("modify artist")
     return db_artist
 
 def encode_str_artist(artist: models.Artist) -> models.Artist:

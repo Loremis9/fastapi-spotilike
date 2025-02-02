@@ -7,6 +7,7 @@ from ..models.user_sessions import schemas
 from ...core.security import create_access_token, return_http_error, verify_refresh_token
 from ..models.user_sessions import service as user_session_service
 from ...core.security import return_http_error
+
 router = APIRouter(tags=["auth"])
 
 

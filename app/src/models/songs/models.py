@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import  Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import  Column, Integer, String, DateTime, ForeignKey, Index
 from sqlalchemy.orm import relationship, declarative_base
 from sqlalchemy.dialects.postgresql import UUID
 from ....core.database import Base
@@ -23,6 +23,12 @@ class Song(Base):
     type_id = Column(UUID(as_uuid=True), ForeignKey('types.type_id', ondelete="CASCADE"))
     type = relationship('Type', back_populates='songs')
 
+    __table_args__ = (
+        Index('idx_artist_id', 'artist_id'),
+    )
+    __table_args__ = (
+        Index('idx_album_id', 'album_id'),
+    )
     
     def __repr__(self):
         return f"<song(title={self.title}, duration={self.duration})>"

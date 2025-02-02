@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Column, String, DateTime, Integer, ForeignKey, Enum
+from sqlalchemy import Column, String, DateTime, Integer, ForeignKey, Enum, Index
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
 from ....core.database import Base
@@ -29,14 +29,17 @@ class User(Base):
     user_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     user_name = Column(String(16), nullable=False)
     password = Column(String(255), nullable=False)
-    email = Column(String(50), nullable=False)
+    email = Column(String(50), nullable=False,unique=True)
     updated_at = Column(DateTime, nullable=True)
     deleted_at = Column(DateTime, nullable=True)
     age = role_id = Column(Integer, nullable=True)
     genre =  Column(Enum(Genre,native_enum=False), nullable=True)
     role_id = Column(Integer, ForeignKey('roles.role_id'), default=1)
     role = relationship("Role", back_populates="users") 
-
+    __table_args__ = (
+        Index('idx_users_email', 'email'),
+    )
+    
     user_session = relationship("UserSession", back_populates="user")
     def __repr__(self):
         return f"<User(user_name={self.user_name})>"

@@ -1,19 +1,17 @@
 from sqlalchemy.orm import Session
-from fastapi import HTTPException
 from . import models, schemas
 from datetime import datetime
 from ..artists.service import get_artist_by_id
 from uuid import UUID
 from ....core.security import return_http_error
-from ....core.log.metrics import log_info
-
+from ....core.log.metrics import log_info_console
 
 def create_album(db: Session, album: schemas.AlbumCreate) -> models.Album:
     db_album = models.Album(**album.dict())
     db.add(db_album)
     db.commit()
     db.refresh(db_album)
-    log_info("create album")
+    log_info_console("create album")
     return db_album
 
 def get_album_by_id(db: Session, album_id: UUID) -> models.Album:
@@ -23,6 +21,7 @@ def get_album_by_id(db: Session, album_id: UUID) -> models.Album:
     return db_album
 
 def get_albums(db: Session, skip : int = 0, limit : int =100):
+    log_info_console('requete')
     return db.query(models.Album).filter(models.Album.deleted_at.is_(None)).offset(skip).limit(limit).all()
 
 def remove_album(db: Session, album_id: UUID) -> bool:
@@ -54,6 +53,6 @@ def put_album(db :Session, album_id: UUID ,album: schemas.AlbumModify) -> models
     db_album.updated_at = datetime.utcnow()
     db.commit()
     db.refresh(db_album)
-    log_info("modify album")
+    log_info_console("modify album")
     return db_album
     

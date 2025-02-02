@@ -13,6 +13,8 @@ class songOutput(BaseModel):
     duration: int
     type: Optional[UUID]
     album_id: UUID
+    album_title: str
+    artist_name: str
     artist_id: UUID
     song_id: UUID
 
