@@ -21,9 +21,9 @@ def save_refresh_token(db: Session,email =str) -> str:
     db_user = get_user_by_email(db,email)
     if not db_user:
       raise return_http_error("user not exits")
-    db_token = db.query(UserSession).filter(UserSession.user_id == db_user.user_id).first()
+    db_token :UserSession = db.query(UserSession).filter(UserSession.user_id == db_user.user_id).first()
     if not db_token or not db_token.user_refresh_token:
-        db_token.user_refresh_token = create_refresh_token(data={"sub": email})
+        db_token = UserSession(user_id=db_user.user_id,user_refresh_token= create_refresh_token(data={"sub": email}))
         db.add(db_token)
         db.commit()
         db.refresh(db_token)

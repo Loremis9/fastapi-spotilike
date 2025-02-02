@@ -7,9 +7,9 @@ from .log.logging import logger
 # Database Configuration
 ###
 
-SQLALCHEMY_DATABASE_URL = "postgresql://admin:adminpassword@localhost/fastapi_spotilike"
+SQLALCHEMY_DATABASE_URL = "postgresql://admin:adminpassword@localhost/fastapi_spotilike?client_encoding=utf8"
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+engine = create_engine(SQLALCHEMY_DATABASE_URL,echo=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()

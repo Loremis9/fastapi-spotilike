@@ -30,7 +30,8 @@ async def get_albums_id(album_id : UUID, db: Session = Depends(get_db)) -> Album
 
 @router.post("/albums",response_model=AlbumOutput)
 async def get_all_albums(schema:AlbumCreate, db: Session = Depends(get_db)) -> AlbumOutput:
-    return album_service.create_album(db, schema)
+    album= album_service.create_album(db, schema)
+    return convert_album_output(db,album)
 
 
 @router.put("/albums/{album_id}",response_model=AlbumOutput)

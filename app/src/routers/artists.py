@@ -19,10 +19,10 @@ async def get_artists(db: Session = Depends(get_db))-> list[ArtistOutput]:
         raise return_http_error("Album not found")
     return db_artist
 
-@router.put("/artist/{artist_id}",response_model=ArtistOutput)
+@router.put("/artists/{artist_id}",response_model=ArtistOutput)
 async def put_artist_by_id(artist_id : UUID, schema : ArtistModify , db: Session = Depends(get_db)) -> ArtistOutput:
     return artist_service.put_artist(artist_id, schema,db)
 
-@router.delete("/artist/{artist_id}",response_model=bool)
+@router.delete("/artists/{artist_id}",response_model=bool)
 async def get_song_by_id(artist_id : UUID, db: Session = Depends(get_db),user = Annotated[User,Depends(user_session_service.get_current_user)]) -> bool:
     return artist_service.remove_album(db,artist_id)

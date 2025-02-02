@@ -1,21 +1,14 @@
 from prometheus_client import Counter
 from .logging import log_error_console, log_info_console
-from typing import Union
-error_counter = Counter("server_errors", "Nombre d'erreurs du serveur", ["error_tag"])
-info_counter = Counter("server_info", "informations sur actions effectue", ["info_tag"])
 
-def log_error_with_metrics(tag: Union[str,list[str]]):
-    if isinstance(tag,list):
-        log_error_console(','.join(tag))
-        return
-    log_error_console(tag)
-    error_counter.labels(error_tag=tag).inc()
-    return
 
-def log_info(tag: Union[str,list[str]]):
-    if  isinstance( tag,list):
-        log_info_console(','.join(tag))
-    log_info_console(tag)
-    info_counter.labels(info_tag=tag).inc()
-    return
+error_counter_metric = Counter("server_errors", "Nombre d'erreurs du serveur", ["error_tag"])
+info_counter_metric = Counter("server_info", "Informations sur actions effectuées", ["info_tag"])
 
+def log_error_with_metrics(message, status_http):
+    log_error_console(f'{message}, {status_http}')
+    error_counter_metric.labels(error_tag=f'{message}, {status_http}').inc()
+
+def log_info(message, status_http):
+    log_info_console(f'{message}, {status_http}')
+    info_counter_metric.labels(info_tag=f'{message}, {status_http}').inc()

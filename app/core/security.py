@@ -7,6 +7,7 @@ from jwt.exceptions import InvalidTokenError,ExpiredSignatureError
 from fastapi import  HTTPException, status
 from .config import NOT_FOUND, UNAUTHORIZED
 from .log import metrics
+
 def create_access_token(data) -> str:
     payload = data.copy()
     expire = datetime.utcnow() + timedelta(minutes=30)
@@ -23,7 +24,7 @@ def create_refresh_token(data) -> str:
     return encoded_jwt_refresh
 
 def hash_password(password: str) -> str:
-    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode(('utf-8'))
 
 def get_pwd_context() -> CryptContext:
     return CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -49,14 +50,14 @@ def verify_refresh_token(refresh_token: str) -> str:
 
 
 def return_http_error(message : str, status_http : status = NOT_FOUND) -> HTTPException :
-    metrics.error_counter(list[message,status_http])
+    metrics.log_error_with_metrics(message, status_http)
     raise  HTTPException(
         status_code=status_http,
         detail=message,
     )
 
 def return_headers_error(message : str = "Could not validate credentials", status_http : status = UNAUTHORIZED) -> HTTPException :
-    metrics.error_counter(list[message,status_http])
+    metrics.log_error_with_metrics(message,status_http)
     raise  HTTPException(
         status_code=status_http,
         detail=message,

@@ -8,6 +8,7 @@ from ....core.log.metrics import log_info_console
 
 def create_album(db: Session, album: schemas.AlbumCreate) -> models.Album:
     db_album = models.Album(**album.dict())
+    db_album.title.encode("latin1").decode("utf-8")
     db.add(db_album)
     db.commit()
     db.refresh(db_album)
@@ -37,18 +38,16 @@ def put_album(db :Session, album_id: UUID ,album: schemas.AlbumModify) -> models
     db_album = get_album_by_id(db,album_id)
     if not album:
         raise return_http_error("Album not found")
-    if album.pouch:
-        db_album.pouch = album.pouch
     if album.release_date:
         db_album.release_date = album.release_date
     if album.title:
-        db_album.title = album.title.encode('utf-8')
+        db_album.title = album.title
     if album.artist_id:
         artist = get_artist_by_id(db,album.artist_id)
         if not artist:
             raise return_http_error("Artist not found")
-        
         db_album.artist_id = artist.artist_id
+        db_album.artist_name= artist.artist_name.encode("latin1").decode("utf-8")
 
     db_album.updated_at = datetime.utcnow()
     db.commit()

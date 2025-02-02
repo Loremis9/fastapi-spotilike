@@ -6,7 +6,7 @@ from .models import Song
 from uuid import UUID
 from ..artists.models import Artist
 from ..albums.service import get_album_by_id
-from ..types.service import get_type_by_name
+from ..types.service import get_type_by_name,get_type_by_id
 from ....core.security import return_http_error
 from ....core.log.metrics import log_info_console
 
@@ -26,13 +26,14 @@ def get_song_by_artist_id(db: Session, artist_id: UUID) -> Song:
     
 def add_song_to_album(db_session : Session, album_id: str, schema: songCreate) ->  Song:
     album = get_album_by_id(db_session, album_id) 
-    type = get_type_by_name(db_session, schema.type)
+    type = get_type_by_id(db_session, schema.type)
     if not album:
         raise return_http_error("Album not found")
     if not type:    
         raise return_http_error("Type not found")
     if album:
         new_song = convert_model(schema, album)
+        new_song.title.encode("latin1").decode("utf-8")
         album.album_song_relationship.append(new_song)
         db_session.add(new_song)
         db_session.commit()
@@ -42,11 +43,10 @@ def add_song_to_album(db_session : Session, album_id: str, schema: songCreate) -
         return None 
     
 def convert_model(schema : songCreate, album : Album) -> Song:
-     new_song = Song(
-            title=schema.title.encode('utf-8'),
-            artist_id=album.artist_id,
+     return  Song(
+            title=schema.title.encode("latin1").decode("utf-8"),
             duration=schema.duration,
-            type_id=type.type_id,
+            type_id=schema.type,
             album_id=album.album_id,
             updated_at=None,  
             deleted_at=None,

@@ -10,7 +10,7 @@ class ArtistCreate(BaseModel):
 class ArtistOutput(ArtistCreate):
     artist_id: UUID
     
-class ArtistModify(ArtistCreate):
+class ArtistModify(BaseModel):
     artist_name: Optional[str]
     avatar: Optional[str]
     biography: Optional[str]

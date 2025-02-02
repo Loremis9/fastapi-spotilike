@@ -33,9 +33,9 @@ async def get_all_genre(skip: int = 0, limit: int = 100, db: Session = Depends(g
 @router.post("/albums/{albums_id}/songs",response_model=songOutput)
 async def create_song_by_id(albums_id : UUID, songs: songCreate , db: Session = Depends(get_db)) -> songOutput:
     song = song_service.add_song_to_album(db, albums_id,songs)
-    return convert_song_output(song)
+    return convert_song_output(db,song)
 
-@router.put("api/genre/{genre_id}",response_model=TypeOutput)
+@router.put("/genre/{genre_id}",response_model=TypeOutput)
 async def modify_types_by_id(genre_id : UUID,schema: TypeModify, db: Session = Depends(get_db)) ->TypeOutput :
     return type_service.put_type(db, genre_id, schema)
 

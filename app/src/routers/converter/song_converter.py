@@ -25,17 +25,18 @@ def convert_songs_output(db: Session,songs : Song) -> list[songOutput]:
         ))
     return list
 
-def convert_song_output(song : Song,artist : Artist) -> songOutput:
+def convert_song_output(db: Session,song : Song) -> songOutput:
     album = get_album_by_id(db, song.album_id)
+    artist = get_artist_by_id(db,album.artist_id)
     return songOutput(
             song_id=song.song_id,
             title=song.title,
             type=song.type_id,
             duration=song.duration,
-            album_title=album.album_title,
+            album_title=album.title,
             album_id=song.album_id,
             artist_name=artist.artist_name,
-            artist_id=song.artist.artist_id
+            artist_id=album.artist_id
         )
 def convert_song_create_to_song(album : Album_Model, schema: songCreate)-> Song:
     return Song(
@@ -44,6 +45,6 @@ def convert_song_create_to_song(album : Album_Model, schema: songCreate)-> Song:
             duration=schema.duration,
             type_id=schema.type,
             album_id=album.album_id,
-            updated_at=datetime.now(datetime.timezone.utc),  
+            updated_at=datetime.utcnow(),  
             deleted_at=None,
         )

@@ -8,10 +8,12 @@ from ....core.log.metrics import log_info_console
 
 def create_artist(db: Session, artist: schemas.ArtistCreate) -> models.Artist:
     db_artist = models.Artist(**artist.dict())
-    db_artist = encode_str_artist(db_artist)
+
     db_existing = db.query(models.Artist).filter(models.Artist.artist_name == db_artist.artist_name).first()
     if db_existing:
         raise return_http_error("Artist already exist", status_http=BAD_REQUEST)
+    db_artist.biography.encode("latin1").decode("utf-8")
+    db_artist.artist_name.encode("latin1").decode("utf-8")
     db.add(db_artist)
     db.commit()
     db.refresh(db_artist)
@@ -39,22 +41,15 @@ def put_artist(artist_id : UUID,artist: schemas.ArtistModify,db :Session) -> mod
         raise return_http_error("Artist not found")
     
     if artist.artist_name:
-        db_artist.artist_name = artist.artist_name
-    if artist.artist_pouch:
-        db_artist.pouch = artist.pouch
+        db_artist.artist_name = artist.artist_name.encode("latin1").decode("utf-8")
     if artist.avatar:
         db_artist.avatar = artist.avatar
     if artist.biography:
-        db_artist.biography = artist.biography
+        db_artist.biography = artist.biography.encode("latin1").decode("utf-8")
 
     db_artist.update_at = datetime.utcnow()
-    db_artist = encode_str_artist(db_artist)
     db.commit()
     db.refresh(db_artist)
     log_info_console("modify artist")
     return db_artist
 
-def encode_str_artist(artist: models.Artist) -> models.Artist:
-    artist.artist_name = artist.artist_name.encode('utf-8')
-    artist.biography = artist.biography.encode('utf-8')
-    return artist
