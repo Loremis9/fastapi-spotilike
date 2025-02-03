@@ -19,6 +19,7 @@ def get_type_by_id(db: Session, type_id: UUID)-> models.Type:
     db_type= db.query(models.Type).filter(models.Type.type_id == type_id,models.Type.deleted_at.is_(None)).first()
     if not db_type:
         raise return_http_error("type not found")
+    log_info("getTypeId")
     return db_type
     
 
@@ -31,13 +32,15 @@ def put_type(db : Session,genre_id : UUID, type: schemas.TypeOutput) -> models.T
     db_type.updated_at = datetime.utcnow()
     db.commit()
     db.refresh(db_type)
-    log_info("create type")
+    log_info("createType")
     return db_type
 
 def get_type_by_name(db: Session, type_name: str) -> models.Type:
+    log_info("getTypeByName")
     return db.query(models.Type).filter(models.Type.title == type_name, models.Type.deleted_at.is_(None)).first()
 
 def get_type_by_id(db: Session, id: str) -> models.Type:
+    log_info("getTypeById")
     return db.query(models.Type).filter(models.Type.type_id == id, models.Type.deleted_at.is_(None)).first()
 
 def remove_type(db: Session, type_id: UUID) -> bool:
@@ -47,4 +50,5 @@ def remove_type(db: Session, type_id: UUID) -> bool:
     logging.log_info_console(db_type.type_id)
     db.delete(db_type)
     db.commit()
+    log_info("removeType")
     return True

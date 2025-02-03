@@ -10,7 +10,7 @@ from ....core.config import SECRET_KEY, ALGORITHM
 from .schemas import TokenData
 from ....core.security import create_refresh_token, verify_refresh_token_validity, return_http_error
 from ..users.models import User
-from ....core.log.metrics import log_info_console
+from ....core.log.metrics import log_info
 
 
 
@@ -29,7 +29,7 @@ def save_refresh_token(db: Session,email =str) -> str:
         db.refresh(db_token)
     if verify_refresh_token_validity(db_token.user_refresh_token):
         return db_token.user_refresh_token
-    log_info_console("save refresh_token")
+    log_info("saveRefreshToken")
     return db_token.user_refresh_token
 
 def get_refresh_token(db: Session, email:str) -> bool:
@@ -37,6 +37,7 @@ def get_refresh_token(db: Session, email:str) -> bool:
     db_token = db.query(UserSession).filter(UserSession.user_id == db_user.id).first()
     if not db_token.user_refresh_token:
         False
+    log_info("GetRefreshToken")
     return True
 
 
@@ -53,6 +54,7 @@ async def get_current_user(db :Session, token: Annotated[str, Depends(oauth2_sch
     user = get_user_by_email(db=db, email=token_data.email)
     if user is None:
         raise return_http_error("aucun utilisateur associé à l'email")
+    log_info("verifyToken")
     return user
 
 

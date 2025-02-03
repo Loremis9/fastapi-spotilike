@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from . import models
 import bcrypt
 from ....core.security import return_http_error, hash_password
-from ....core.log.metrics import log_info_console
+from ....core.log.metrics import log_info
 from .schemas import UserCreate
 
 def get_user_by_id(db: Session, user_id: int) -> models.User:
@@ -21,7 +21,7 @@ def create_user(db: Session, user : UserCreate) -> bool:
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
-    log_info_console("create user")
+    log_info("createUser")
     return db_user
 
 def delete_user_by_id(db:Session, user_id: int)-> bool :
@@ -29,7 +29,7 @@ def delete_user_by_id(db:Session, user_id: int)-> bool :
     if not user:
         raise return_http_error("User not found")
     db.delete(user)
-    log_info_console("delete user")
+    log_info("deleteUser")
     return True
 
 def verify_password(db: Session, password: str, hashed_password: str) -> bool:
@@ -43,5 +43,5 @@ def authenticate_user(db : Session, email: str, password: str)-> models.User:
         return False
     if not verify_password(db,password, db_user.password):
         return False
-    log_info_console("authenticate user")
+    log_info("authenticateUser")
     return db_user

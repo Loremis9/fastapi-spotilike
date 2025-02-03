@@ -33,7 +33,7 @@ app = get_app()
 
 @app.on_event("startup")
 async def load_test_data():
-   load_all_test_data()
+   load_all_test_data(True)
 
 @app.get("/")
 async def root():
