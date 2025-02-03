@@ -4,10 +4,13 @@ from .test.load_data.load_datas import load_all_test_data
 from .src.routers import api
 from .core.config import API_PREFIX
 from fastapi.middleware.cors import CORSMiddleware
+from prometheus_fastapi_instrumentator import Instrumentator
+
 
 def get_app()->FastAPI:
 
     app = FastAPI()
+    Instrumentator().instrument(app).expose(app)
     origins = [
     "http://localhost.tiangolo.com",
     "https://localhost.tiangolo.com",

@@ -4,7 +4,7 @@ from datetime import datetime
 from ....core.security import return_http_error
 from uuid import UUID
 from ....core.log import logging
-from ....core.log.metrics import log_info_console
+from ....core.log.metrics import log_info
 
 
 def get_type_by_name(db: Session, type_name: str) -> models.Type:
@@ -12,6 +12,7 @@ def get_type_by_name(db: Session, type_name: str) -> models.Type:
     return db.query(models.Type).filter(models.Type.title.lower() == type_name, models.Type.deleted_at.is_(None)).first()
 
 def get_all_types(db: Session, skip : int = 0, limit : int =100)-> list[models.Type]:
+    log_info("getTypes")
     return db.query(models.Type).filter(models.Type.deleted_at.is_(None)).offset(skip).limit(limit).all()
 
 def get_type_by_id(db: Session, type_id: UUID)-> models.Type:
@@ -30,7 +31,7 @@ def put_type(db : Session,genre_id : UUID, type: schemas.TypeOutput) -> models.T
     db_type.updated_at = datetime.utcnow()
     db.commit()
     db.refresh(db_type)
-    log_info_console("create type")
+    log_info("create type")
     return db_type
 
 def get_type_by_name(db: Session, type_name: str) -> models.Type:

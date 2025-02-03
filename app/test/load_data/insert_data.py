@@ -65,7 +65,7 @@ def insert_data_artists(db: Session):
     for artist_data in data["artists"]:
         db_artist = Artist(
             artist_id=artist_data["artist_id"],
-            artist_name=artist_data["artist_name"],
+            artist_name=artist_data["artist_name"].encode("latin1").decode("utf-8"),
             avatar=artist_data["avatar"],
             biography=artist_data["biography"].encode("latin1").decode("utf-8"),
             updated_at=datetime.strptime(artist_data["updated_at"], "%Y-%m-%d"),
