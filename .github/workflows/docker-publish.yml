@@ -18,11 +18,8 @@ jobs:
 
       # 2. Connexion au GitHub Container Registry
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{github.actor}}
-          password: ${{secrets.GITHUB_TOKEN}}
+        run: echo "${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
           
       # 3. Construire l'image Docker
       - name: Build Docker image
