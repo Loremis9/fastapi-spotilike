@@ -10,7 +10,7 @@ from typing import Annotated
 from ...core.security import return_http_error
 
 
-router = APIRouter()
+router = APIRouter(tags=["artists"])
 
 @router.get("/artists",response_model=list[ArtistOutput])
 async def get_artists(db: Session = Depends(get_db))-> list[ArtistOutput]:
@@ -23,6 +23,6 @@ async def get_artists(db: Session = Depends(get_db))-> list[ArtistOutput]:
 async def put_artist_by_id(artist_id : UUID, schema : ArtistModify , db: Session = Depends(get_db)) -> ArtistOutput:
     return artist_service.put_artist(artist_id, schema,db)
 
-@router.delete("/artists/{artist_id}",response_model=bool)
+@router.delete("/artists/{artist_id}",response_model=bool, dependencies=[Depends(user_session_service.oauth2_scheme)])
 async def get_song_by_id(artist_id : UUID, db: Session = Depends(get_db),user = Annotated[User,Depends(user_session_service.get_current_user)]) -> bool:
     return artist_service.remove_album(db,artist_id)

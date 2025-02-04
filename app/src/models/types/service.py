@@ -9,11 +9,18 @@ from ....core.log.metrics import log_info
 
 def get_type_by_name(db: Session, type_name: str) -> models.Type:
     type_name = type_name.lower()
-    return db.query(models.Type).filter(models.Type.title.lower() == type_name, models.Type.deleted_at.is_(None)).first()
+    db_type =  db.query(models.Type).filter(models.Type.title.lower() == type_name, models.Type.deleted_at.is_(None)).first()
+    if not db_type:
+        raise return_http_error("type not found")
+    log_info("getTypeName")
+    return db_type
 
 def get_all_types(db: Session, skip : int = 0, limit : int =100)-> list[models.Type]:
+    db_types =  db.query(models.Type).filter(models.Type.deleted_at.is_(None)).offset(skip).limit(limit).all()
+    if not db_types:
+        raise return_http_error("type not found")
     log_info("getTypes")
-    return db.query(models.Type).filter(models.Type.deleted_at.is_(None)).offset(skip).limit(limit).all()
+    return db_types
 
 def get_type_by_id(db: Session, type_id: UUID)-> models.Type:
     db_type= db.query(models.Type).filter(models.Type.type_id == type_id,models.Type.deleted_at.is_(None)).first()
@@ -36,12 +43,18 @@ def put_type(db : Session,genre_id : UUID, type: schemas.TypeOutput) -> models.T
     return db_type
 
 def get_type_by_name(db: Session, type_name: str) -> models.Type:
+    db_type =  db.query(models.Type).filter(models.Type.title == type_name, models.Type.deleted_at.is_(None)).first()
+    if not db_type:
+        raise return_http_error("type not found")
     log_info("getTypeByName")
-    return db.query(models.Type).filter(models.Type.title == type_name, models.Type.deleted_at.is_(None)).first()
+    return db_type
 
 def get_type_by_id(db: Session, id: str) -> models.Type:
+    db_type= db.query(models.Type).filter(models.Type.type_id == id, models.Type.deleted_at.is_(None)).first()
+    if not db_type:
+        raise return_http_error("type not found")
     log_info("getTypeById")
-    return db.query(models.Type).filter(models.Type.type_id == id, models.Type.deleted_at.is_(None)).first()
+    return db_type
 
 def remove_type(db: Session, type_id: UUID) -> bool:
     db_type = get_type_by_id(db,type_id)

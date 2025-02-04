@@ -23,7 +23,7 @@ def get_album_by_id(db: Session, album_id: UUID) -> models.Album:
     return db_album
 
 def get_album_by_artist_id(db,artist_id, skip : int = 0, limit : int =100):
-    db_album =  db.query(models.Album).filter(models.Album.artist_id == artist_id, models.Album.deleted_at.is_(None)).offset(skip).limit(limit).all()
+    db_album = db.query(models.Album).filter(models.Album.artist_id == artist_id, models.Album.deleted_at.is_(None)).offset(skip).limit(limit).all()
     if not db_album:
         raise return_http_error("Album not found for artist")
     log_info("getAlbumByArtistId")
@@ -31,7 +31,10 @@ def get_album_by_artist_id(db,artist_id, skip : int = 0, limit : int =100):
 
 def get_albums(db: Session, skip : int = 0, limit : int =100):
     log_info('getAlbums')
-    return db.query(models.Album).filter(models.Album.deleted_at.is_(None)).offset(skip).limit(limit).all()
+    db_album = db.query(models.Album).filter(models.Album.deleted_at.is_(None)).offset(skip).limit(limit).all()
+    if not db_album:
+       raise return_http_error("Album not found")
+    return db_album
 
 def remove_album(db: Session, album_id: UUID) -> bool:
     album = get_album_by_id(db,album_id)

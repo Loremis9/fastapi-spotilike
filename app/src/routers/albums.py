@@ -9,15 +9,13 @@ from ..models.users.models import User
 from typing import Annotated
 from ...core.security import return_http_error
 from .converter.album_converter import convert_albums_output, convert_album_output
+from ..models.user_sessions.service import oauth2_scheme
 
-
-router = APIRouter()
+router = APIRouter(tags=["albums"])
 
 @router.get("/albums",response_model=list[AlbumOutput])
 async def get_all_albums(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)) -> list[AlbumOutput]:
     album = album_service.get_albums(db, skip=skip, limit=limit)
-    if not album:
-        raise return_http_error("Album not found")
     return convert_albums_output(db, album)
 
 
@@ -42,6 +40,6 @@ async def put_alubms_by_id(album_id : UUID,schema: AlbumModify, db: Session = De
     album= album_service.put_album(db, album_id, schema)
     return convert_album_output(db, album)
 
-@router.delete("/albums/{album_id}",response_model=bool)
+@router.delete("/albums/{album_id}",response_model=bool, dependencies=[Depends(oauth2_scheme)])
 async def get_song_by_id(album_id : UUID, db: Session = Depends(get_db),user = Annotated[User,Depends(user_session_service.get_current_user)]) -> bool:
     return album_service.remove_album(db,album_id)

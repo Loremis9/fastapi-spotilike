@@ -6,16 +6,15 @@ from .models import UserSession
 from sqlalchemy.orm import Session
 from jwt.exceptions import InvalidTokenError
 from fastapi.security import OAuth2PasswordBearer
-from ....core.config import SECRET_KEY, ALGORITHM
+from ....core.config import SECRET_KEY, ALGORITHM, UNAUTHORIZED
 from .schemas import TokenData
-from ....core.security import create_refresh_token, verify_refresh_token_validity, return_http_error
+from ....core.security import create_refresh_token, verify_refresh_token_validity, return_http_error, return_headers_error
 from ..users.models import User
 from ....core.log.metrics import log_info
 
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
-
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/login")
 
 def save_refresh_token(db: Session,email =str) -> str:
     db_user = get_user_by_email(db,email)
@@ -47,7 +46,7 @@ async def get_current_user(db :Session, token: Annotated[str, Depends(oauth2_sch
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         email: str = payload.get("sub")
         if email is None:
-            raise return_http_error("email non reconnu")
+            raise return_headers_error(message="Unauthirized", status_http=UNAUTHORIZED)
         token_data = TokenData(email=email)
     except InvalidTokenError:
         raise return_http_error("erreur lors de la lecture des crédential")

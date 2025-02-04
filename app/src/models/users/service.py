@@ -6,11 +6,16 @@ from ....core.log.metrics import log_info
 from .schemas import UserCreate
 
 def get_user_by_id(db: Session, user_id: int) -> models.User:
-    return db.query(models.User).filter(models.User.id == user_id,models.User.deleted_atis_(None)).first()
+    db_user= db.query(models.User).filter(models.User.id == user_id,models.User.deleted_atis_(None)).first()
+    if not db_user:
+        raise return_http_error("User not found")
+    log_info("getUserById")
+    return db_user
 
 def get_user_by_email(db: Session, email: str):
     if not email:
        raise return_http_error("User not found")
+    log_info("getUserByEmail")
     return db.query(models.User).filter(models.User.email == email,models.User.deleted_at.is_(None)).first()
 
 def create_user(db: Session, user : UserCreate) -> bool:

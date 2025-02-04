@@ -13,7 +13,7 @@ from ..models.users.models import User
 from typing import Annotated
 
 
-router = APIRouter()
+router = APIRouter(tags=["songs"])
 
 
 @router.get("/artist/{artist_id}/songs",response_model=list[songOutput]) 
@@ -35,10 +35,10 @@ async def create_song_by_id(albums_id : UUID, songs: songCreate , db: Session = 
     song = song_service.add_song_to_album(db, albums_id,songs)
     return convert_song_output(db,song)
 
-@router.put("/genre/{genre_id}",response_model=TypeOutput)
+@router.put("/genres/{genre_id}",response_model=TypeOutput)
 async def modify_types_by_id(genre_id : UUID,schema: TypeModify, db: Session = Depends(get_db)) ->TypeOutput :
     return type_service.put_type(db, genre_id, schema)
 
-@router.delete("/genre/{genre_id}", response_model=bool)
+@router.delete("/genres/{genre_id}", response_model=bool, dependencies=[Depends(user_session_service.oauth2_scheme)])
 async def delete_song_by_id(genre_id : UUID, db: Session = Depends(get_db), user = Annotated[User,Depends(user_session_service.get_current_user)]) -> bool:
     return type_service.remove_type(db,genre_id)
